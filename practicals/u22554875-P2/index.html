@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+
+        </title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script>
+
+            class App extends React.Component{
+                render(){
+                    return(
+                     <h1>Frequently Asked Questions </h1>
+                    )
+                }
+            };
+
+            class Accordion extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state ={
+                        isClicked :false
+                    }
+                    this.toggle = this.toggle.bind(this);
+
+                }
+
+                toggle(){
+                    this.setState.isClicked({isClicked : !this.state.isClicked})
+                }
+                render(){
+                    return(
+                        <div>
+                            
+                        </div>
+                    )
+                }
+            }
+
+            const root = ReactDom.createRoot(document.getElementById("root"));
+            root.render(<App/>);
+        </script>
+    </body>
+    
+</html>
+
