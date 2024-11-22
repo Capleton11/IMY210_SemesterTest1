@@ -1,0 +1,57 @@
+A9_Memo:
+
+n. Error | Correction | Reason
+
+File: .babelrc
+---------------
+1. .babelrc is empty | Add config object (w. presets) to .babelrc | Add plugins for babel to transpile (compile) React code correctly / .babelrc configuration is needed for babel to run correctly (**not webpack).
+
+File: index.js
+---------------
+2. root.render() missing component to render | root.render(<App/>) | Allow React to render the App component (and the rest of the component tree) to the DOM.
+
+File: App.js
+-------------
+3. RecipePage component not imported | import { RecipePage } from "./components/RecipePage"; | Allow RecipePage component to be used in the App file. 
+
+4. App class not exported | Export the App class | Allow App class to be imported and used in other files (index.js).
+
+5. componentDidUpdate() function used to render initial data | Use componentDidMount() | 1. componentDidUpdate() used like this will cause an infinite loop, and 2. is only for executing code after props/state update (not initial load/mount). componentDidMount() is for executing code on initial mount (e.g., fetching data from a server for the first time the component loads).
+
+6. this.props is used in place of state in the constructor | this.state | this.state is used to manage component state, not this.props (this.props is for passing data into the component).
+
+7. recipes: "[]", in state in constructor | recipes: [] (remove ""), | recipes field in state is clearly used and intended as an array, not a string. The recipies declared in the constructor accidentally declares it as a string (wrong type). 
+
+8. setCurrentRecipe() not bound in the constructor | this.setCurrentRecipe = this.setCurrentRecipe.bind(this); to constructor | If the function is not bound, calling it using "this" will not work / will have no effect (binding changes the "this" keyword to refer to the class context). btw., Binding in the constructor is good practice.
+
+9. recipe.id = id in find(), setCurrentRecipe() function | recipe.id === id | One = is assigning the id to each of the recipes, == or === checks if they are equal which is what we want.
+
+10. Ingredients prop not passed to RecipePage in render() | ingredients={this.state.currentRecipe.ingredients} to RecipePage child component | Pass ingredients down to RecipePage child component as props so it can use it.
+
+File: RecipeCard.js
+--------------------
+11. Import of React missing | import React from "react"; | You need to import the React package to use it in the file / in order to extend the RecipeCard class.
+
+12. onClick={onClick} => onClick function pointer not passed correctly | onClick={this.onClick} | Need to point to the class function onClick by using "this" keyword in order for the correct function to be run / the function pointer to be passed correctly / the function to be run correctly.
+
+13. setCurrentRecipe(props.id); => "this" missing from props call in onClick() | setCurrentRecipe(this.props.id); | "props" on its own refers to any object called props. "this.props" refers to the member variable of the class which is what we want (want to access the class props). 
+
+File: RecipePage.js
+--------------------
+14. RecipePage class not exported | Export the RecipePage class | Allow RecipePage class to be imported and used in other files (App.js).
+
+15. return <li>{ingredient}</li>; => Ingredient items missing a key value | <li key={index}>{ingredient}</li>; | React requires that all child components from a list / loop have a unique key to keep track of changes in the children. 
+
+16. return outside render() function | place return in render() | This is just syntactically incorrect, React will not run like this. 
+
+File: server.js
+----------------
+17. const app = expresso(); | const app = express(); | expresso() is not a function, express() is a function that is part of the express package, and allows you to create an express server. 
+
+18. app.get(express.static('public')); | app.use(express.static('public')); | app.get is for specific routes, app.use is for middleware, and in this case, serving static files (from 'public') by default.
+
+19. fs.readFile('recipes.json',...) => wrong url | fs.readFile('public/recipes.json',...) | recipes.json is in the public folder, so the url needs to point to "public/recipes.json" for fs to find and read it. 
+
+20. response is never sent in app.get("recipes/",...) | res.send(data); in callback function of fs.readFile | 1. In order to send data back to the client (in this case, the JSON from recipes) we need to use res.send(). 2. fs.readFile is async, thus we send back the data from the callback function which will only execute after the readFile function returns. 
+
+
